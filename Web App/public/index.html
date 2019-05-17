@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html>
+	
+	<head>
+
+	<title>Login and Registration Form Design</title>
+		<link rel="stylesheet" href="login.css">
+                
+                <script src="js/phaser.min.js"></script>
+                <script type="application/javascript" src="client.js"></script>
+                <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
+	</head>
+
+	<body onload="Init()" >
+        <div id=app>                        
+            <div id = "homepage">
+		<div class = "login-page">
+		<div class = "form">
+			<div  id="register"  class = "register-form loginBox">
+				<input type = "text" placeholder="username" v-model="username"/>
+				<input type = "password" placeholder = "password" id = "myInput1"/>
+				<input type = "checkbox" onclick = "togglePasswordOne()"><span class="checkbox">Show password</span>
+				<button type="button"  onclick="register()">Register</button>
+				<button style="margin-top:5px"  onclick="toggleDisplay()">Already Registered? Login</button>
+			</div>
+
+			<div  id = "login" class = "login-form loginBox">
+				<input type = "text" placeholder = "username" v-model="username"/>
+				<input type = "password" placeholder = "password" id = "myInput2" v-model="password"/>
+				<input type = "checkbox" onclick = "togglePasswordTwo()"><span class="checkbox">Show password</span>
+				<button type="button" onclick="login()">Login</button>
+				<button style="margin-top:5px" onclick="toggleDisplay()">Not Registered?</button>
+			</div>
+
+		</div>
+		</div>
+            </div>
+                        
+                <header>
+            <div id = "headerAndAvatar" style="display:none">
+            <div id = "imgContent">
+            
+                <img id = "mainImage" src = "avatars/avatar1.png" alt="Avatar1" onclick="document.getElementById('SBox').style.display='block'" class = "avatar">
+
+                <select class = "SBox" onchange="changeImg(this.value)" >
+                    <option value = ''>Choose</option>
+                    <option value = 'avatars/avatar1.png' alt='Avatar1'>Avatar 1</option>
+                    <option value = 'avatars/avatar2.png' alt='Avatar2'>Avatar 2</option>
+                    <option value = 'avatars/avatar3.png' alt='Avatar3'>Avatar 3</option>
+                    <option value = 'avatars/avatar4.jpg' alt='Avatar4'>Avatar 4</option>
+                    <option value = 'avatars/avatar5.png' alt='Avatar5'>Avatar 5</option>
+                    <option value = 'avatars/avatar6.jpg' alt='Avatar6'>Avatar 6</option>
+                    <option value = 'avatars/avatar7.png' alt='Avatar7'>Avatar 7</option>
+                    <option value = 'avatars/avatar8.jpg' alt='Avatar8'>Avatar 8</option>
+                    <option value = 'avatars/avatar9.png' alt='Avatar9'>Avatar 9</option>
+                    <option value = 'avatars/avatar10.jpg' alt='Avatar10'>Avatar 10</option>
+                    <option value = 'avatars/avatar11.png' alt='Avatar11'>Avatar 11</option>
+                    <option value = 'avatars/avatar12.png' alt='Avatar12'>Avatar 12</option>
+                    <option value = 'avatars/avatar13.png' alt='Avatar13'>Avatar 13</option>
+                    <option value = 'avatars/avatar14.png' alt='Avatar14'>Avatar 14</option>
+                    <option value = 'avatars/avatar15.jpg' alt='Avatar15'>Avatar 15</option>
+                    <option value = 'avatars/avatar16.png' alt='Avatar16'>Avatar 16</option>
+                </select>
+
+            </div>
+
+
+            <nav>
+                <ul>
+                        <li onclick ="showHome();">Home</a></li>
+                        <li style="color:black"><a href = "about.html">About Us</a></li>
+                        <li onclick= "showLeaderboard()">Leaderboard</li>
+                </ul>
+            </nav>
+        </header>
+        
+        <button id="chatHide" class="open-button" style="display:none" onclick="openForm()">Breakout Chatroom</button>
+
+        <div class="chat-popup" id="myForm" style="overflow-y:auto">
+          <div class="form-container">
+            <img src = "icon.png" class = "chatIcon">
+            <h1>Breakout Chat</h1>
+            <h2>Group Name : {{room}}</h2>
+            <input type="text" id="groupInput" placeholder="Enter Group Name" onchange="getGroup()"></input>
+            
+            <div id = "chatbox">
+            <ul style="list-style:none">
+                <li v-for="message in chat_messages">{{ message }}</li>
+            </ul>
+            </div>
+            <label for="msg"><b>Message</b></label>
+            <input placeholder="Type message.." name="msg" v-model="new_message" required></input>
+            
+         
+            <button id="submitmsg" class="btn" @click="SendMessage" >Send</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </div>
+        </div>
+        <div id="leaderboard" style="display:none">
+            <table bgcolor="white">
+            <tr>
+                <th>Username</th>
+                <th>Score</th>
+                <th>Time</th>
+                <th>Bricks Broken</th>
+            </tr>
+            <tr v-for="item in leaderboard">
+                <td :onclick="'userStats(\'' + item.uname + '\');'">{{ item.uname }}</td>
+                <td>{{ item.score}} </td>
+                <td>{{ item.time }} </td>
+                <td>{{ item.bricks }} </td>
+            </tr>
+            </table>
+        
+        </div> 
+        <div id="userStats" style="display:none">
+            <table bgcolor = "white">
+            <tr>
+                <th>Username</th>
+                <th>Best score</th>
+                <th>Best Time</th>
+                <th>Best Bricks Broken</th>
+            </tr>
+             <tr>
+                <td>{{ userStatsUsername }}</td>
+                <td>{{ bestScore}} </td>
+                <td>{{ bestTime }} </td>
+                <td>{{ bestBricks }} </td>
+            </tr>
+                 
+                <th>Username</th>
+                <th>Total Score Earned</th>
+                <th>Total Time Played</th>
+                <th>Total Bricks Broken</th>
+            </tr>
+             <tr>
+                <td>{{ userStatsUsername }}</td>
+                <td>{{ totalScore}} </td>
+                <td>{{ totalTime }} Seconds </td>
+                <td>{{ totalBricks }} </td>
+            </tr>
+        </table>
+        </div>
+        </div>
+        <div id="game" onload="callGame();" style="display:none"></div>
+        </div>   
+		<script src = 'https://code.jquery.com/jquery-3.2.1.min.js'></script>
+
+		<script>
+
+			function toggleDisplay(){
+                        console.log("clicked");
+			$('.loginBox').animate({height: "toggle", opacity: "toggle"}, "slow");
+			
+                        }
+			function togglePasswordOne() {
+				var x = document.getElementById("myInput1");
+
+				if(x.type === "password") {
+					x.type = "text";
+				} 
+				else {
+					x.type = "password";
+				}
+			}
+
+			function togglePasswordTwo() {
+				var y = document.getElementById("myInput2");
+
+				if(y.type === "password") {
+					y.type = "text";
+				}
+
+				else {
+					y.type = "password";
+				}
+			}
+                        function openForm() {
+                            document.getElementById("myForm").style.display = "block";
+                        }
+                        function closeForm() {
+                            document.getElementById("myForm").style.display = "none";
+                        }
+
+		</script>
+          
+	</body> 
+
+
+
+</html>

@@ -1,0 +1,35 @@
+{
+  "name": "webgame",
+  "version": "1.0.0",
+  "description": "A brick breaking game which includes a leaderboard and messaging functions",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.16.4",
+    "fs": "0.0.1-security",
+    "js-md5": "^0.7.3",
+    "multiparty": "^4.2.1",
+    "sqlite3": "^4.0.8",
+    "url-search-params": "^1.1.0",
+    "ws": "^7.0.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">= 10.0.0",
+    "npm": ">= 6.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nadi9686/Breakout.git"
+  },
+  "author": "Nick Sauer and Amir Nadimi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nadi9686/Breakout/issues"
+  },
+  "homepage": "https://github.com/saue9669/Breakout#readme"
+}
